@@ -13,8 +13,9 @@ def padding_model(flie_path):
     return str_array
 
 
-browntest = "/home/adnanrahin/source-code/PycharmProjects/Natural-Language-Processing-Language-Modeling/Data-Set/brown-test.txt"
+brown_test_path = "/home/adnanrahin/source-code/PycharmProjects/Natural-Language-Processing-Language-Modeling/Data-Set/brown-test.txt"
+brown_train_path = "/home/adnanrahin/source-code/PycharmProjects/Natural-Language-Processing-Language-Modeling/Data-Set/brown-train.txt"
 
-str = padding_model(browntest)
-for i in range(0, len(str)):
-    print(str[i])
+brown_test_data = padding_model(brown_test_path)
+brown_train_data = padding_model(brown_train_path)
+
