@@ -1,6 +1,8 @@
 import string
 import re
 
+PATH = "/home/adnanrahin/source-code/PycharmProjects/Natural-Language-Processing-Language-Modeling/Data-Set/"
+
 
 # Section 1.1 Pre-Processing the data set
 
@@ -26,24 +28,29 @@ def lower_case_all_words(data_set):
 
 def duplicates_word_to_unk(data_set):
     dictionary = {}
+    pattern = "[A-Za-z]"
+    openfile = open("new-brown-train-data.txt", "w")
     for sentence in data_set:
         words = sentence.split()
-        for word in words:
-            if word not in dictionary:
-                dictionary[word] = 1
+        openfile.write("<s>")
+        for word in words[1:len(words) - 1]:
+            if re.match(pattern, word):
+                if word not in dictionary:
+                    dictionary[word] = 1
+                    openfile.write(" " + word)
+                else:
+                    dictionary[word] += 1
+                    openfile.write(" " + "<unk>")
             else:
-                dictionary[word] += 1
+                openfile.write(" " + word)
+        openfile.write(" </s>\n")
 
+    openfile.close()
     return dictionary
 
 
-# main method
-
-
-path = "/home/adnanrahin/source-code/PycharmProjects/Natural-Language-Processing-Language-Modeling"
-
-brown_test_path = path + "/Data-Set/brown-test.txt"
-brown_train_path = path + "/Data-Set/brown-train.txt"
+brown_test_path = PATH + "brown-test.txt"
+brown_train_path = PATH + "brown-train.txt"
 
 brown_test_data = padding_model(brown_test_path)
 brown_train_data = padding_model(brown_train_path)
@@ -55,3 +62,5 @@ dictionary = duplicates_word_to_unk(brown_train_data)
 
 for word, count in dictionary.items():
     print(word, count)
+
+print(len(dictionary))
