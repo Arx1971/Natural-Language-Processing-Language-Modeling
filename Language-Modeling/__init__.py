@@ -23,6 +23,7 @@ def lower_case_all_words(data_set):
 
     return data_set
 
+# change only one time, once all
 
 def duplicates_word_to_unk(data_set):
     dictionary = {}
@@ -68,15 +69,14 @@ def test_data_not_in_train_data(dictionary, data_set):
 
 brown_test_path = "brown-test.txt"
 brown_train_path = "brown-train.txt"
-
 brown_test_data = padding_model(brown_test_path)
 brown_train_data = padding_model(brown_train_path)
-
 brown_test_data = lower_case_all_words(brown_test_data)
 brown_train_data = lower_case_all_words(brown_train_data)
-
 dictionary = duplicates_word_to_unk(brown_train_data)
-
 test_data_not_in_train_data(dictionary, brown_test_data)
 
-counter = 0
+print("Number Of unique Word In Training Corpus: ", len(dictionary) + 3)
+
+for word, count in dictionary.items():
+    print(word, count)
