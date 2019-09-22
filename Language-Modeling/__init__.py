@@ -1,8 +1,6 @@
 import string
 import re
 
-PATH = "/home/adnanrahin/source-code/PycharmProjects/Natural-Language-Processing-Language-Modeling/Data-Set/"
-
 
 # Section 1.1 Pre-Processing the data set
 
@@ -49,8 +47,27 @@ def duplicates_word_to_unk(data_set):
     return dictionary
 
 
-brown_test_path = PATH + "brown-test.txt"
-brown_train_path = PATH + "brown-train.txt"
+def test_data_not_in_train_data(dictionary, data_set):
+    openfile = open("new-brown-test-data.txt", "w")
+    pattern = "[A-Za-z]"
+    for sentence in data_set:
+        words = sentence.split()
+        openfile.write("<s>")
+        for word in words[1:len(words) - 1]:
+            if re.match(pattern, word):
+                if word not in dictionary:
+                    openfile.write(" " + "<unk>")
+                else:
+                    openfile.write(" " + word)
+            else:
+                openfile.write(" " + word)
+        openfile.write(" </s>\n")
+
+    openfile.close()
+
+
+brown_test_path = "brown-test.txt"
+brown_train_path = "brown-train.txt"
 
 brown_test_data = padding_model(brown_test_path)
 brown_train_data = padding_model(brown_train_path)
@@ -60,7 +77,6 @@ brown_train_data = lower_case_all_words(brown_train_data)
 
 dictionary = duplicates_word_to_unk(brown_train_data)
 
-for word, count in dictionary.items():
-    print(word, count)
+test_data_not_in_train_data(dictionary, brown_test_data)
 
-print(len(dictionary))
+counter = 0
