@@ -52,7 +52,7 @@
  <s> these are but a <unk> of the <unk> i endured . </s>
  <s> as mrs. <unk> <unk> , was it any wonder that i , once the social <unk> of <unk> , was <unk> from the smart <unk> given by the <unk> , the coopers , the gables , the <unk> , the <unk> , the <unk> , the <unk> and such <unk> , closely knit families as the <unk> and the <unk> ? ? </s>
  <s> as <unk> <unk> conduct increased , our invitations <unk> and my heart was in my mouth whenever i played hostess at a <unk> `` <unk> '' gathering . </s>
- <s> between 1935 and 1939 <unk> and i made ten films together , each less successful , both <unk> and <unk> , than the one before it . </s>
+ <s> between 1935 and <unk> <unk> and i made ten films together , each less successful , both <unk> and <unk> , than the one before it . </s>
  <s> our last joint venture , <unk> lady , a deeply religious film based on the life of mother <unk> , and timed so that its release date would <unk> with the <unk> of america's first saint in november , 1938 , was a fiasco from start to finish . </s>
  <s> as i was playing mother <unk> , the picture was actually `` all mine '' , with nearly every scene built around me . </s>
  <s> but in order to keep <unk> in the public eye and out of trouble , i wrote in a part especially for him -- that of a dashing <unk> who `` sees the light '' and is saved by the <unk> example of mother <unk> . </s>
@@ -185,7 +185,7 @@
  <s> `` by the way '' , said mr. <unk> , packing his tools into a battered <unk> , `` them power tools needs extra <unk> . </s>
  <s> i guess you know about that . </s>
  <s> before you use 'em the light company's got to run in a heavy line and you'll need a new <unk> box for the extra <unk> . </s>
- <s> that ain't too bad 'ceptin' the light company's so busy you can't ever get 'em to do nothin' '' . </s>
+ <s> that ain't too bad <unk> the light company's so busy you can't ever get 'em to do nothin' '' . </s>
  <s> instead of being depressed by this news , mr. <unk> was actually relieved . </s>
  <s> at least the moment was <unk> when he had to face the mystery of the power tools . </s>
  <s> he followed mr. <unk> up the cellar stairs . </s>
@@ -681,13 +681,13 @@
  <s> after a few <unk> moments of wondering who `` he '' is , the camera pans across the room to the plaster statue , and we realize that <unk> is trying to <unk> himself in the eyes of a <unk> piece of sculpture . </s>
  <s> the effect , <unk> to say , is almost terrifying , and though at times a bit obscure , the film is certainly a <unk> <unk> for the `` <unk> '' <unk> . </s>
  <s> the music of <unk> <unk> , capital <unk> <unk> , one of the rare recordings of this <unk> , yet unsung , composer . </s>
- <s> those persons who were lucky enough to see and hear the performance of his work at the <unk> festival in august , 1916 , will certainly welcome his return to public notice ; ; </s>
+ <s> those persons who were lucky enough to see and hear the performance of his work at the <unk> festival in august , <unk> , will certainly welcome his return to public notice ; ; </s>
  <s> and it is not unlikely that , even as the great <unk> lay dormant for so many years , so has the <unk> , ingenious <unk> passed through his `` <unk> '' of neglect . </s>
  <s> but now , under the guidance of the contemporary composer <unk> <unk> , jr. , a major <unk> is under way . </s>
  <s> as he leads the <unk> <unk> orchestra , <unk> gives a <unk> inspired performance of both the <unk> and <unk> <unk> , including the controversial <unk> <unk> , which was included at the <unk> insistence . </s>
  <s> a major portion of the credit should also go to <unk> <unk> for his <unk> of the almost impossible `` indianapolis '' movement in the <unk> . </s>
  <s> not only was <unk> <unk> and <unk> without <unk> , but he seemed to take every <unk> <unk> in stride . </s>
- <s> for example , to move ( as the score requires ) from the lowest <unk> register up to a barely audible <unk> minor in four seconds , not <unk> , at the same time , even one of the 407 <unk> , seems a feat too absurd to consider , and it is to the <unk> credit that he remained silent throughout the passage . </s>
+ <s> for example , to move ( as the score requires ) from the lowest <unk> register up to a barely audible <unk> minor in four seconds , not <unk> , at the same time , even one of the <unk> <unk> , seems a feat too absurd to consider , and it is to the <unk> credit that he remained silent throughout the passage . </s>
  <s> we would have preferred , however , to have had the rest of the orchestra <unk> from laughing at this and other spots on the recording , since it mars an otherwise sober , if not <unk> , performance . </s>
  <s> as broadway itself becomes increasingly <unk> down by <unk> , <unk> , <unk> successful <unk> and <unk> problem dramas , the american theatre is going through an <unk> renaissance in that <unk> area known as `` <unk> '' . </s>
  <s> for the last two years , this frontier of the arts has produced a number of so-called `` <unk> '' which have left <unk> , <unk> impressions on the <unk> of this veteran <unk> . </s>
@@ -735,7 +735,7 @@
  <s> you have <unk> set in motion forces so <unk> , so <unk> , that it would be downright <unk> of me not to warn you about them . </s>
  <s> quite <unk> , fellows , i wouldn't be in your shoes for all the rice in china . </s>
  <s> as you've doubtless forgotten the circumstances in the press of more recent <unk> , permit me to <unk> them briefly . </s>
- <s> sometime on saturday evening , august 22nd , while my family and i were dining at the <unk> <unk> <unk> , in rome , you <unk> a window of our home in bucks county , pennsylvania , and let <unk> into the premises . </s>
+ <s> sometime on saturday evening , august <unk> , while my family and i were dining at the <unk> <unk> <unk> , in rome , you <unk> a window of our home in bucks county , pennsylvania , and let <unk> into the premises . </s>
  <s> <unk> to the attic , the temperature of which was easily hotter than the gold coast , you proceeded to mask the windows with a fancy wool <unk> , some <unk> pants , and the like , and to <unk> the innumerable boxes and barrels stored there . </s>
  <s> what you were looking for ( unless you make a <unk> of collecting old tennis <unk> and fly screens ) <unk> me , but to judge from <unk> records scattered about a <unk> <unk> . </s>
  <s> you danced two <unk> and a paso <unk> , which must have been fairly <unk> in that <unk> . </s>
@@ -752,7 +752,7 @@
  <s> hold on tight . </s>
  <s> first of all , the six figures of the <unk> you <unk> -- four siamese heads , a black <unk> <unk> in the <unk> position , and a large brass figure of the dying <unk> on a <unk> base . </s>
  <s> now , you probably share the widespread western belief that the lord <unk> is the most <unk> of the gods , much more so than <unk> and <unk> and the rest . </s>
- <s> 'fess up -- don't you ? ? </s>
+ <s> <unk> up -- don't you ? ? </s>
  <s> well , ordinarily he is , except ( as the wheel of the law <unk> ) toward <unk> folk who steal , disturb , or <unk> the presence . </s>
  <s> very peculiar <unk> indeed seems to <unk> such <unk> . </s>
  <s> eight or ten years ago , a couple of french <unk> stole a <unk> <unk> head from the <unk> <unk> , in paris , and a week later crawled into the <unk> with unmistakable symptoms of <unk> . </s>
