@@ -17,9 +17,11 @@ def load_data_set(filename):
 def training_data_process(data_set, filename):
     file = open("updated-" + filename, "w")
     dictionary = dict()
+    token_counter = 0
     for sentence in data_set:
         words = sentence.split()
         for word in words:
+            token_counter += 1
             if word not in dictionary:
                 dictionary[word] = 1
             else:
@@ -36,6 +38,9 @@ def training_data_process(data_set, filename):
         file.write("\n")
 
     file.close()
+
+    print("Total Number of Unique Words in Training Corpus: ", len(dictionary) + 3)
+    print("Total Number of Token in Training Corpus: ", token_counter)
 
     return dictionary
 
@@ -58,5 +63,3 @@ test_data_set = load_data_set("brown-test.txt")
 
 dictionary = training_data_process(training_data_set, "brown-train.txt")
 test_data_process(dictionary, test_data_set, "brown-test.txt")
-
-print("Total Number of Unique Words in Training Corpus: ", len(dictionary) + 3)
