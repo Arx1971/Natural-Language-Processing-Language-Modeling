@@ -62,12 +62,19 @@ def test_data_process(dictionary, dataset, filename):
     file.close()
 
 
+def total_number_of_words_token(dictionary):
+    total_word_count = 0
+    for word, count in dictionary.items():
+        total_word_count += count
+
+    return total_word_count
+
+
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
 
 dictionary = training_data_process(training_data_set, "brown-train.txt")
 test_data_process(dictionary, test_data_set, "brown-test.txt")
-# for word, count in dictionary.items():
-#     print(word, count)
 
-print(len(dictionary) + 3)
+print("Total Number of Unique Words in the Training Corpus: ", len(dictionary) + 3)
+print(total_number_of_words_token(dictionary))
