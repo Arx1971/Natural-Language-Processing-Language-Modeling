@@ -66,7 +66,7 @@ def test_data_process(dictionary, dataset, filename):
     file.close()
 
 
-def percentage_word_and_token(train_data, test_data):
+def percentage_word_and_token(train_data, test_data, learner_data):
     train_data_map = dict()
     test_data_map = dict()
     test_token_counter = 0
@@ -91,15 +91,17 @@ def percentage_word_and_token(train_data, test_data):
                 else:
                     test_data_map[word] += 1
 
-    print(len(train_data_map))
-    print(len(test_data_map))
+    print("Unique Word in Training Data Set:", len(train_data_map))
+    print("Unique Word in Test Data Set:", len(test_data_map))
     print(train_token_counter)
     print(test_token_counter)
 
 
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
+learner_data_set = load_data_set("learner-test.txt")
+
 dictionary = training_data_process(training_data_set, "brown-train.txt")
 test_data_process(dictionary, test_data_set, "brown-test.txt")
 
-percentage_word_and_token(training_data_set, test_data_set)
+percentage_word_and_token(training_data_set, test_data_set, learner_data_set)
