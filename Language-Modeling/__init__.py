@@ -20,7 +20,6 @@ def training_data_process(data_set, filename):
     for sentence in data_set:
         words = sentence.split()
         for word in words:
-            token_counter += 1
             if word not in dictionary:
                 dictionary[word] = 1
             else:
@@ -29,11 +28,14 @@ def training_data_process(data_set, filename):
     dictionary["<unk>"] = 0
     dictionary["<s>"] = 0
     dictionary["</s>"] = 0
+
     for sentence in data_set:
         words = sentence.split()
         file.write("<s>")
         dictionary["<s>"] += 1
+        token_counter += 1
         for word in words:
+            token_counter += 1
             if dictionary[word] == 1:
                 file.write(" <unk>")
                 del dictionary[word]
@@ -42,6 +44,7 @@ def training_data_process(data_set, filename):
                 file.write(" " + word)
         file.write(" </s>\n")
         dictionary["</s>"] += 1
+        token_counter += 1
     file.close()
 
     print("Total Number of Unique Words in Training Corpus: ", len(dictionary))
