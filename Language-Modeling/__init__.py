@@ -66,6 +66,21 @@ def test_data_process(dictionary, dataset, filename):
     file.close()
 
 
+def unique_token_word_train_data(train_data):
+    train_data_map = dict()
+    train_token_counter = 0
+    for sentence in train_data:
+        words = sentence.split()
+        for word in words:
+            train_token_counter += 1
+            if word not in train_data_map:
+                train_data_map[word] = 1
+            else:
+                train_data_map[word] += 1
+
+    return dictionary, train_token_counter
+
+
 def percentage_word_and_token(train_data, test_data, learner_data):
     train_data_map = dict()
     test_data_map = dict()
@@ -112,3 +127,5 @@ dictionary = training_data_process(training_data_set, "brown-train.txt")
 test_data_process(dictionary, test_data_set, "brown-test.txt")
 
 percentage_word_and_token(training_data_set, test_data_set, learner_data_set)
+
+arr = unique_token_word_train_data(training_data_set)
