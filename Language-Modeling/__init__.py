@@ -46,7 +46,6 @@ def training_data_process(data_set, filename):
         dictionary["</s>"] += 1
         token_counter += 1
     file.close()
-
     print("Total Number of Unique Words in Training Corpus: ", len(dictionary))
     print("Total Number of Token in Training Corpus: ", token_counter)
 
