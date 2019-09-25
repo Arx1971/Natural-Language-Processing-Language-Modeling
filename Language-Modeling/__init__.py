@@ -73,7 +73,6 @@ def test_data_writer(dictionary, dataset, filename):
             else:
                 file.write(" " + "<unk>")
                 test_dictionary["<unk>"] += 1
-                token_counter += 1
         file.write(" </s>\n")
         test_dictionary["</s>"] += 1
         token_counter += 1
