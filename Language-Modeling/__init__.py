@@ -113,4 +113,5 @@ print("Total Numbere of Token In Train-Data: ", arr[1])
 # Test Data Set Parse:
 test_arr = test_data_writer(arr[0], test_data_set, "brown-test.txt")
 
-print(len(test_arr[0]), " ", test_arr[1])
+print("Number of unique word in test: ", len(test_arr[0]))
+print("Number of Token In test: ", test_arr[1])
