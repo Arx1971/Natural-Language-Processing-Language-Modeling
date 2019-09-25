@@ -81,6 +81,22 @@ def unique_token_word_train_data(train_data):
     return dictionary, train_token_counter
 
 
+def word_token_percentage(training_dictionary, training_tokens, test_data_set):
+    test_dictionary = dict()
+    test_tokens = 0
+
+    for sentence in test_data_set:
+        words = sentence.split()
+        for word in words:
+            if word in training_dictionary:
+                test_tokens += 1
+                if word not in test_dictionary:
+                    test_dictionary[word] = 1
+                else:
+                    test_dictionary[word] += 1
+    print(len(test_dictionary), " ", test_tokens)
+
+
 def percentage_word_and_token(train_data, test_data, learner_data):
     train_data_map = dict()
     test_data_map = dict()
@@ -118,6 +134,10 @@ def percentage_word_and_token(train_data, test_data, learner_data):
                 else:
                     learner_data_map[word] += 1
 
+    print(len(train_data_map), " ", train_token_counter)
+    print(len(test_data_set), " ", test_token_counter)
+    print(len(learner_data_map), " ", learner_token_counter)
+
 
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -129,3 +149,5 @@ test_data_process(dictionary, test_data_set, "brown-test.txt")
 percentage_word_and_token(training_data_set, test_data_set, learner_data_set)
 
 arr = unique_token_word_train_data(training_data_set)
+print(len(arr[0]))
+word_token_percentage(arr[0], arr[1], test_data_set)
