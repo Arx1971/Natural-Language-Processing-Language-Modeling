@@ -8,8 +8,7 @@ def load_data_set(filename):
     with open(filename, "r") as lines:
         str_array = []
         for line in lines:
-            line = line[0:len(line) - 1]
-            str_array.append("<s> " + line.lower() + " </s>\n")
+            str_array.append(line.lower())
 
     return str_array
 
@@ -27,10 +26,13 @@ def training_data_process(data_set, filename):
             else:
                 dictionary[word] += 1
 
-    dictionary["<unk>"] = 1
-
+    dictionary["<unk>"] = 0
+    dictionary["<s>"] = 0
+    dictionary["</s>"] = 0
     for sentence in data_set:
         words = sentence.split()
+        file.write("<s>")
+        dictionary["<s>"] += 1
         for word in words:
             if dictionary[word] == 1:
                 file.write(" <unk>")
@@ -38,8 +40,8 @@ def training_data_process(data_set, filename):
                 dictionary["<unk>"] += 1
             else:
                 file.write(" " + word)
-        file.write("\n")
-
+        file.write(" </s>\n")
+        dictionary["</s>"] += 1
     file.close()
 
     print("Total Number of Unique Words in Training Corpus: ", len(dictionary))
@@ -52,16 +54,17 @@ def test_data_process(dictionary, dataset, filename):
     file = open("updated-" + filename, "w")
     for sentence in dataset:
         words = sentence.split()
+        file.write(" <s>")
         for word in words:
             if word in dictionary:
                 file.write(" " + word)
             else:
                 file.write(" " + "<unk>")
-        file.write("\n")
+        file.write(" </s>\n")
     file.close()
 
 
-def percentage_word_and_token(test_data, train_data):
+def percentage_word_and_token(train_data, test_data):
     train_data_map = dict()
     test_data_map = dict()
     test_token_counter = 0
@@ -79,14 +82,17 @@ def percentage_word_and_token(test_data, train_data):
     for sentence in test_data:
         words = sentence.split()
         for word in words:
-            test_token_counter += 1
-            if word not in test_data_map:
-                test_data_map[word] = 1
-            else:
-                test_data_map[word] += 1
+            if word in train_data_map:
+                test_token_counter += 1
+                if word not in test_data_map:
+                    test_data_map[word] = 1
+                else:
+                    test_data_map[word] += 1
 
-    print(len(train_data_map), " ", train_token_counter)
-    print(len(test_data_map), " ", test_token_counter)
+    print(len(train_data_map))
+    print(len(test_data_map))
+    print(train_token_counter)
+    print(test_token_counter)
 
 
 training_data_set = load_data_set("brown-train.txt")
@@ -94,4 +100,4 @@ test_data_set = load_data_set("brown-test.txt")
 dictionary = training_data_process(training_data_set, "brown-train.txt")
 test_data_process(dictionary, test_data_set, "brown-test.txt")
 
-percentage_word_and_token(test_data_set, training_data_set)
+percentage_word_and_token(training_data_set, test_data_set)
