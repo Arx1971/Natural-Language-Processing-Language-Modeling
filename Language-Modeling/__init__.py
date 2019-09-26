@@ -97,14 +97,17 @@ def unique_word_token_in_data(data_set):
     return train_dictionary, token_counter
 
 
-def percentage_of_unigram(train_dictionary, test_dataset):
+def uingram_model(train_dictionary, test_dataset):
     token_counter_match = 0
     test_data_unique_word = dict()
     non_match_data = dict()
+    total_token = 0
     for sentence in test_dataset:
         words = sentence.split()
         for word in words:
+            total_token += 1
             if word in train_dictionary:
+                token_counter_match += 1
                 if word in test_data_unique_word:
                     test_data_unique_word[word] += 1
                 else:
@@ -114,8 +117,11 @@ def percentage_of_unigram(train_dictionary, test_dataset):
                     non_match_data[word] = 1
                 else:
                     non_match_data[word] += 1
-            token_counter_match += 1
-    
+
+    word_type = len(non_match_data) / (len(test_data_unique_word) + len(non_match_data))
+    word_token = (total_token - token_counter_match) / total_token
+    print("Percentage of word token did not occur in the training: ", word_token * 100, "%")
+    print("Percentage of word types did not occur in the training: ", word_type * 100, "%")
     return test_data_unique_word, non_match_data, token_counter_match
 
 
@@ -123,6 +129,7 @@ def percentage_of_unigram(train_dictionary, test_dataset):
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
 learner_data_set = load_data_set("learner-test.txt")
+
 dictionary = training_data_writer(training_data_set, "brown-train.txt")
 processed_train_data = load_data_set("updated-brown-train.txt")
 
@@ -134,6 +141,7 @@ print("Total Number of Token In Train-Data: ", arr_for_modified_train[1])
 # Test Data Set Parse:
 
 arr = unique_word_token_in_data(training_data_set)
-print(len(arr[0]), arr[1])
-arr_test = percentage_of_unigram(arr[0], test_data_set)
-print(len(arr_test[0]), len(arr_test[1]), arr_test[2])
+print("BROWN-TEST-DATA: ")
+arr_test_brown = uingram_model(arr[0], test_data_set)
+print("LEARNER-TEST-DATA: ")
+arr_test_learner = uingram_model(arr[0], learner_data_set)
