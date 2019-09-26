@@ -97,6 +97,22 @@ def unique_word_token_in_train_data(train_data_set):
     return train_dictionary, token_counter
 
 
+def percentage_of_unigrams(train_dictionary, test_dataset):
+    token_counter = 0
+    test_data_unique_word = dict()
+    for sentence in test_data_set:
+        words = sentence.split()
+        for word in words:
+            if word in train_dictionary:
+                if word in test_data_unique_word:
+                    test_data_unique_word[word] += 1
+                else:
+                    test_data_unique_word[word] = 1
+                token_counter += 1
+
+    return test_data_unique_word, token_counter
+
+
 # Data Pre-Processing
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -105,12 +121,11 @@ dictionary = training_data_writer(training_data_set, "brown-train.txt")
 processed_train_data = load_data_set("updated-brown-train.txt")
 
 # problem 1:
-arr = unique_word_token_in_train_data(processed_train_data)
-print("Total Number of Unique Word in Train-Data: ", len(arr[0]))
-print("Total Numbere of Token In Train-Data: ", arr[1])
-
+arr_for_modified_train = unique_word_token_in_train_data(processed_train_data)
+print("Total Number of Unique Word in Train-Data: ", len(arr_for_modified_train[0]))
+print("Total Number of Token In Train-Data: ", arr_for_modified_train[1])
 # Test Data Set Parse:
-test_arr = test_data_writer(arr[0], test_data_set, "brown-test.txt")
-
-print("Number of unique word in test: ", len(test_arr[0]))
-print("Number of Token In test: ", test_arr[1])
+arr_for_original_train_data = unique_word_token_in_train_data(training_data_set)
+arr_for_original_test_data = percentage_of_unigrams(arr_for_original_train_data[0], test_data_set)
+print(len(arr_for_original_train_data[0]), " ", arr_for_original_train_data[1])
+print(len(arr_for_original_test_data[0]), " ", arr_for_original_test_data[1])
