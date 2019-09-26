@@ -13,15 +13,16 @@ def load_data_set(filename):
 
 def unique_word_in_train(data):
     dictionary = dict()
-
+    token = 0
     for sentence in data:
         words = sentence.split()
         for word in words:
+            token += 1
             if word not in dictionary:
                 dictionary[word] = 1
             else:
                 dictionary[word] += 1
-    print(len(dictionary))
+    print(len(dictionary), " ", token)
 
     return dictionary
 
