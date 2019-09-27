@@ -11,15 +11,14 @@ def load_data_set(filename):
     return str_array
 
 
-def padding_sentence(data, filename):
-    file = open("unk-ignore-" + filename, "w")
+def padding_sentence(filename):
+    with open(filename, "r") as lines:
+        str_array = []
+        for line in lines:
+            line = line[0:len(line) - 1]
+            str_array.append("<s> " + line + " </s>")
 
-    for sentence in data:
-        words = sentence.split()
-        file.write("<s>")
-        for word in words:
-            file.write(" " + word.lower())
-        file.write(" </s>" + '\n')
+    return str_array
 
 
 def training_data_writer(data_set, filename):
@@ -117,6 +116,7 @@ def uingram_model(train_dictionary, test_dataset):
     for sentence in test_dataset:
         words = sentence.split()
         for word in words:
+            word = word.lower()
             total_token += 1
             if word in train_dictionary:
                 token_counter_match += 1
@@ -134,6 +134,7 @@ def uingram_model(train_dictionary, test_dataset):
     word_token = (total_token - token_counter_match) / total_token
     print("Percentage of word token did not occur in the training: ", word_token * 100, "%")
     print("Percentage of word types did not occur in the training: ", word_type * 100, "%")
+
     return test_data_unique_word, non_match_data, token_counter_match
 
 
@@ -152,9 +153,8 @@ print("Total Number of Token In Train-Data: ", arr_for_modified_train[1])
 
 # Test Data Set Parse:
 
-arr = unique_word_token_in_data(training_data_set)
-print(len(arr[0]))
+arr = unique_word_token_in_data(padding_sentence("brown-train.txt"))
 print("BROWN-TEST-DATA: ")
-arr_test_brown = uingram_model(arr[0], test_data_set)
+arr_test_brown = uingram_model(arr[0], padding_sentence("brown-test.txt"))
 print("LEARNER-TEST-DATA: ")
-arr_test_learner = uingram_model(arr[0], learner_data_set)
+arr_test_learner = uingram_model(arr[0], padding_sentence("learner-test.txt"))
