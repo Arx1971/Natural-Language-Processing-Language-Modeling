@@ -11,6 +11,17 @@ def load_data_set(filename):
     return str_array
 
 
+def padding_sentence(data, filename):
+    file = open("unk-ignore-" + filename, "w")
+
+    for sentence in data:
+        words = sentence.split()
+        file.write("<s>")
+        for word in words:
+            file.write(" " + word.lower())
+        file.write(" </s>" + '\n')
+
+
 def training_data_writer(data_set, filename):
     file = open("updated-" + filename, "w")
     dictionary = dict()
@@ -88,6 +99,7 @@ def unique_word_token_in_data(data_set):
     for sentence in data_set:
         words = sentence.split()
         for word in words:
+            word = word.lower()
             token_counter += 1
             if word not in train_dictionary:
                 train_dictionary[word] = 1
@@ -141,6 +153,7 @@ print("Total Number of Token In Train-Data: ", arr_for_modified_train[1])
 # Test Data Set Parse:
 
 arr = unique_word_token_in_data(training_data_set)
+print(len(arr[0]))
 print("BROWN-TEST-DATA: ")
 arr_test_brown = uingram_model(arr[0], test_data_set)
 print("LEARNER-TEST-DATA: ")

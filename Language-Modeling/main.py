@@ -11,35 +11,32 @@ def load_data_set(filename):
     return str_array
 
 
-def unique_word_in_train(data):
+def padding_sentence(data):
+    file = open("updated-demo-data", "w")
+
+    for sentence in data:
+        words = sentence.split()
+        file.write("<s>")
+        for word in words:
+            word = word.lower()
+            file.write(" " + word)
+        file.write(" </s>" + '\n')
+
+
+def unique_word(data):
     dictionary = dict()
-    token = 0
     for sentence in data:
         words = sentence.split()
         for word in words:
-            token += 1
             if word not in dictionary:
                 dictionary[word] = 1
             else:
                 dictionary[word] += 1
-    print(len(dictionary), " ", token)
 
-    return dictionary
-
-
-def method(dictionary, data):
-    count = 0
-    for sen in data:
-        words = sen.split()
-        for word in words:
-            if word in dictionary:
-                count += 1
-    print(count)
+    for word, frequency in dictionary.items():
+        print(word, frequency)
 
 
-train = load_data_set("brown-train.txt")
-test = load_data_set("brown-test.txt")
-
-dictionary = unique_word_in_train(train)
-
-method(dictionary, test)
+data = load_data_set("demo-data.txt")
+unique_word(data)
+padding_sentence(data)
