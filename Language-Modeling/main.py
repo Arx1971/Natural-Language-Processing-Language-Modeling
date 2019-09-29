@@ -1,59 +1,51 @@
-import re
-import string
-
-
 def load_data_set(filename):
     with open(filename, "r") as lines:
         str_array = []
         for line in lines:
-            line = line.lower()
-            line = line[0:len(line) - 1]
-            str_array.append("<s> " + line + " </s>\n")
+            str_array.append(line)
 
     return str_array
 
 
-def data_Match(dictionary, data):
-    match = dict()
-    non_match = dict()
-
-    for sentence in data:
-        words = sentence.split()
-        for word in words:
-            word = word.lower()
-            if word in dictionary:
-                if word in match:
-                    match[word] += 1
-                else:
-                    match[word] = 1
-            elif word not in dictionary:
-                if word in non_match:
-                    non_match[word] += 1
-                else:
-                    non_match[word] = 1
-
-
-def unique_word(data):
+def unique_word_type(dataset):
     dictionary = dict()
-    for sentence in data:
-        words = sentence.split()
-        for word in words:
-            # word = word.lower()
-            if word not in dictionary:
-                dictionary[word] = 1
-            else:
-                dictionary[word] += 1
 
+    for sentence in dataset:
+        words = sentence.split()
+        for i in range(0, len(words) - 1):
+            word = (words[i], words[i + 1])
+            if word in dictionary:
+                dictionary[word] += 1
+            else:
+                dictionary[word] = 1
     return dictionary
 
 
-def printer(data):
-    for sentence in data:
-        print(sentence)
+def percentage_bigrams(dictionary, dataset):
+    test_dictionary_match = dict()
+    test_dictionary_non_match = dict()
+    total_number_token_match = 0
+    for sentence in dataset:
+        words = sentence.split()
+        for i in range(0, len(words) - 1):
+            word = (words[i], words[i + 1])
+            if word in dictionary:
+                total_number_token_match += 1
+                if word in test_dictionary_match:
+                    test_dictionary_match[word] += 1
+                else:
+                    test_dictionary_match[word] = 1
+            else:
+                if word in test_dictionary_non_match:
+                    test_dictionary_non_match[word] += 1
+                else:
+                    test_dictionary_non_match[word] = 1
+    print(len(test_dictionary_non_match))
 
 
-data = load_data_set("brown-train.txt")
+train_data_set = load_data_set("updated-brown-train.txt")
+brown_data_set = load_data_set("updated-brown-test.txt")
 
-dictionary = unique_word(data)
-test_data = load_data_set("brown-test.txt")
-printer(test_data)
+bigrams_dictionary = unique_word_type(train_data_set)
+
+percentage_bigrams(bigrams_dictionary, brown_data_set)

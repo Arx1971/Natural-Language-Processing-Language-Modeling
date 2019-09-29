@@ -163,11 +163,5 @@ test_updated_data = test_data_writer(dictionary, test_data_set, "brown-test.txt"
 learner_updated_data = test_data_writer(dictionary, learner_data_set, "learner-test.txt")
 learner_load = load_data_set("updated-learner-test.txt")
 test_loader = load_data_set("updated-brown-test.txt")
-arr = unique_word_token_in_data(learner_load)
-brr = unique_word_token_in_data(test_loader)
-print(len(arr[0]), " ", arr[1])
-print(len(brr[0]), " ", brr[1])
-
-print(dictionary['he']/498474)
-
-
+learner_test_unique_word = unique_word_token_in_data(learner_load)
+brown_test_unique_word = unique_word_token_in_data(test_loader)
