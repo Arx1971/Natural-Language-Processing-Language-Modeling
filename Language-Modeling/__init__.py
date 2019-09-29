@@ -2,6 +2,15 @@ import re
 import string
 
 
+def unigram_maximum_likelihood(dictionary, total_size, sentence):
+    words = sentence.split()
+    prob = 1.0
+    for word in words:
+        if word in dictionary:
+            prob *= dictionary[word] / total_size
+    return prob
+
+
 def load_data_set(filename):
     with open(filename, "r") as lines:
         str_array = []
@@ -91,7 +100,7 @@ def test_data_writer(dictionary, dataset, filename):
     return test_dictionary, token_counter
 
 
-def unique_word_token_in_data(data_set):
+def unique_word_token_for_unigram(data_set):
     token_counter = 0
     train_dictionary = dict()
 
@@ -192,17 +201,17 @@ dictionary = training_data_writer(training_data_set, "brown-train.txt")
 processed_train_data = load_data_set("updated-brown-train.txt")
 
 # problem 1:
-arr_for_modified_train = unique_word_token_in_data(processed_train_data)
+arr_for_modified_train = unique_word_token_for_unigram(processed_train_data)
 print("Total Number of Unique Word in Train-Data: ", len(arr_for_modified_train[0]))
 print("Total Number of Token In Train-Data: ", arr_for_modified_train[1])
 
 # Test Data Set Parse:
 print("UNIGRAMS MODEL: ")
-arr = unique_word_token_in_data(padding_sentence("brown-train.txt"))
+train_unigram = unique_word_token_for_unigram(padding_sentence("brown-train.txt"))
 print("BROWN-TEST-DATA: ")
-arr_test_brown = uingrams_model(arr[0], padding_sentence("brown-test.txt"))
+arr_test_brown = uingrams_model(train_unigram[0], padding_sentence("brown-test.txt"))
 print("LEARNER-TEST-DATA: ")
-arr_test_learner = uingrams_model(arr[0], padding_sentence("learner-test.txt"))
+arr_test_learner = uingrams_model(train_unigram[0], padding_sentence("learner-test.txt"))
 
 # update test file
 print("BIGRAMS MODEL: ")
@@ -215,3 +224,12 @@ print("BROWN-TEST-DATA: ")
 bigrams_model(train_bigrams[0], brown_test_loader)
 print("LEARNER-TEST-DATA: ")
 bigrams_model(train_bigrams[0], learner_test_loader)
+
+sentence1 = "<s> he was laughed off the screen . </s>"
+value = unigram_maximum_likelihood(arr_for_modified_train[0], arr_for_modified_train[1], sentence1)
+print(value)
+
+dic = train_bigrams[0]
+vz = train_bigrams[1]
+unidic = train_unigram[0]
+print(dic[('the', 'fulton')] / unidic['the'])
