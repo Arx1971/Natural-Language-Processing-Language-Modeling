@@ -108,7 +108,7 @@ def unique_word_token_in_data(data_set):
     return train_dictionary, token_counter
 
 
-def uingram_model(train_dictionary, test_dataset):
+def uingrams_model(train_dictionary, test_dataset):
     token_counter_match = 0
     test_data_unique_word = dict()
     non_match_data = dict()
@@ -138,6 +138,51 @@ def uingram_model(train_dictionary, test_dataset):
     return test_data_unique_word, non_match_data, token_counter_match
 
 
+# bigram processing
+
+def unique_word_type_bigram(dataset):
+    dictionary = dict()
+    total_token = 0
+    for sentence in dataset:
+        words = sentence.split()
+        for i in range(0, len(words) - 1):
+            word = (words[i], words[i + 1])
+            total_token += 1
+            if word in dictionary:
+                dictionary[word] += 1
+            else:
+                dictionary[word] = 1
+    return dictionary, total_token
+
+
+def bigrams_model(dictionary, dataset):
+    test_dictionary_match = dict()
+    test_dictionary_non_match = dict()
+    total_number_token_match = 0
+    total_number_token = 0
+    for sentence in dataset:
+        words = sentence.split()
+        for i in range(0, len(words) - 1):
+            word = (words[i], words[i + 1])
+            total_number_token += 1
+            if word in dictionary:
+                total_number_token_match += 1
+                if word in test_dictionary_match:
+                    test_dictionary_match[word] += 1
+                else:
+                    test_dictionary_match[word] = 1
+            else:
+                if word in test_dictionary_non_match:
+                    test_dictionary_non_match[word] += 1
+                else:
+                    test_dictionary_non_match[word] = 1
+    word_type = len(test_dictionary_non_match) / (len(test_dictionary_non_match) + len(test_dictionary_match))
+    word_token = (total_number_token - total_number_token_match) / total_number_token
+
+    print("Percentage of word token did not occur in the training: ", word_token * 100, "%")
+    print("Percentage of word types did not occur in the training: ", word_type * 100, "%")
+
+
 # Data Pre-Processing
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -152,16 +197,21 @@ print("Total Number of Unique Word in Train-Data: ", len(arr_for_modified_train[
 print("Total Number of Token In Train-Data: ", arr_for_modified_train[1])
 
 # Test Data Set Parse:
+print("UNIGRAMS MODEL: ")
 arr = unique_word_token_in_data(padding_sentence("brown-train.txt"))
 print("BROWN-TEST-DATA: ")
-arr_test_brown = uingram_model(arr[0], padding_sentence("brown-test.txt"))
+arr_test_brown = uingrams_model(arr[0], padding_sentence("brown-test.txt"))
 print("LEARNER-TEST-DATA: ")
-arr_test_learner = uingram_model(arr[0], padding_sentence("learner-test.txt"))
+arr_test_learner = uingrams_model(arr[0], padding_sentence("learner-test.txt"))
 
 # update test file
+print("BIGRAMS MODEL: ")
 test_updated_data = test_data_writer(dictionary, test_data_set, "brown-test.txt")
 learner_updated_data = test_data_writer(dictionary, learner_data_set, "learner-test.txt")
-learner_load = load_data_set("updated-learner-test.txt")
-test_loader = load_data_set("updated-brown-test.txt")
-learner_test_unique_word = unique_word_token_in_data(learner_load)
-brown_test_unique_word = unique_word_token_in_data(test_loader)
+learner_test_loader = load_data_set("updated-learner-test.txt")
+brown_test_loader = load_data_set("updated-brown-test.txt")
+train_bigrams = unique_word_type_bigram(processed_train_data)
+print("BROWN-TEST-DATA: ")
+bigrams_model(train_bigrams[0], brown_test_loader)
+print("LEARNER-TEST-DATA: ")
+bigrams_model(train_bigrams[0], learner_test_loader)
