@@ -259,8 +259,38 @@ def unigram_perplexity(unigram_dictionary, sentence, size):
             value = unigram_dictionary[word]
             p = value / size
             prob += math.log(p, 2)
+    ans = math.pow(2, -(prob / len(words)))
 
-    return prob / len(words)
+    return ans
+
+
+def bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence):
+    words = sentence.split()
+    prob = 0.0
+    for i in range(0, len(words) - 1):
+        var = (words[i], words[i + 1])
+        if var in bigram_dictionary:
+            p = bigram_dictionary[var] / unigram_dictionary[words[i]]
+            prob += math.log(p, 2)  # check p is zero or not
+        elif var not in bigram_dictionary:
+            return "undefined"
+    ans = math.pow(2, -(prob / len(words)))
+
+    return ans
+
+
+def bigram_add_one_smoothing_perplexity(unigrams_dictionary, bigrams_dictionary, sentence, V):
+    words = sentence.split()
+    prob = 0.0
+    for i in range(0, len(words) - 1):
+        var = (words[i], words[i + 1])
+        var2 = bigrams_dictionary.get(var, 0) + 1
+        var3 = unigrams_dictionary.get(words[i], 0) + V
+        p = (var2 / var3)
+        prob += math.log(p, 2)
+    prob = prob / len(words)
+    ans = math.pow(2, -prob)
+    return ans
 
 
 # Data Pre-Processing
@@ -335,7 +365,34 @@ print(sentence2, ": ", value_smoothing_2)
 value_smoothing_3 = bigram_add_smoothing(unigram_dictionary, bigram_dictionary, sentence3, len(unigram_dictionary))
 print(sentence3, ": ", value_smoothing_3)
 
-# Perplexity
+# Perplexity Unigram
+
 print("Perplexity: ")
-value_perplexity_1 = unigram_perplexity(unigram_dictionary, sentence1, unigram_total_token)
-print(math.pow(2, value_perplexity_1))
+print("Perplexity Unigram: ")
+unigram_value_perplexity_1 = unigram_perplexity(unigram_dictionary, sentence1, unigram_total_token)
+print(sentence1, ": ", unigram_value_perplexity_1)
+unigram_value_perplexity_2 = unigram_perplexity(unigram_dictionary, sentence2, unigram_total_token)
+print(sentence2, ": ", unigram_value_perplexity_2)
+unigram_value_perplexity_3 = unigram_perplexity(unigram_dictionary, sentence3, unigram_total_token)
+print(sentence3, ": ", unigram_value_perplexity_3)
+
+# Perplexity Bigram
+print("Perplexity Bigram: ")
+bigram_value_perplexity_1 = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence1)
+print(sentence1, ": ", bigram_value_perplexity_1)
+bigram_value_perplexity_2 = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence2)
+print(sentence2, ": ", bigram_value_perplexity_2)
+bigram_value_perplexity_3 = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence3)
+print(sentence3, ": ", bigram_value_perplexity_3)
+
+# Perplexity Bigram add one smoothing
+print("Perplexity Bigram add one smoothing: ")
+biagram_add_one_smoothing_1 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence1,
+                                                                  len(unigram_dictionary))
+print(sentence1, ": ", biagram_add_one_smoothing_1)
+biagram_add_one_smoothing_2 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence2,
+                                                                  len(unigram_dictionary))
+print(sentence2, ": ", biagram_add_one_smoothing_2)
+biagram_add_one_smoothing_3 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence3,
+                                                                  len(unigram_dictionary))
+print(sentence3, ": ", biagram_add_one_smoothing_3)
