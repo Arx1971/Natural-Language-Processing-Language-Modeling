@@ -1,5 +1,3 @@
-import re
-import string
 import math
 
 
@@ -259,9 +257,11 @@ def unigram_perplexity(unigram_dictionary, sentence, size):
             value = unigram_dictionary[word]
             p = value / size
             prob += math.log(p, 2)
+        elif word not in unigram_dictionary:
+            return "undefined"
     ans = math.pow(2, -(prob / len(words)))
 
-    return ans
+    return ans, prob
 
 
 def bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence):
@@ -293,6 +293,19 @@ def bigram_add_one_smoothing_perplexity(unigrams_dictionary, bigrams_dictionary,
     return ans
 
 
+def unigram_perplexity_test_data(unigram_dictionary, test_data_set, unigram_total_token, total_token_in_test):
+    prob_total = 0.0
+    for sentence in test_data_set:
+        prob = unigram_perplexity(unigram_dictionary, sentence, unigram_total_token)
+        if prob is "undefined":
+            return "undefined"
+        else:
+            prob_total += prob[1]
+    ans = math.pow(2, -(prob_total / total_token_in_test))
+
+    return ans
+
+
 # Data Pre-Processing
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -318,8 +331,10 @@ arr_test_learner = uingrams_model(train_unigram[0], padding_sentence("learner-te
 print("BIGRAMS MODEL: ")
 test_updated_data = test_data_writer(dictionary, test_data_set, "brown-test.txt")
 learner_updated_data = test_data_writer(dictionary, learner_data_set, "learner-test.txt")
+
 learner_test_loader = load_data_set("updated-learner-test.txt")
 brown_test_loader = load_data_set("updated-brown-test.txt")
+
 train_bigrams = unique_word_type_bigram(processed_train_data)
 print("BROWN-TEST-DATA: ")
 bigrams_model(train_bigrams[0], brown_test_loader)
@@ -370,11 +385,11 @@ print(sentence3, ": ", value_smoothing_3)
 print("Perplexity: ")
 print("Perplexity Unigram: ")
 unigram_value_perplexity_1 = unigram_perplexity(unigram_dictionary, sentence1, unigram_total_token)
-print(sentence1, ": ", unigram_value_perplexity_1)
+print(sentence1, ": ", unigram_value_perplexity_1[0])
 unigram_value_perplexity_2 = unigram_perplexity(unigram_dictionary, sentence2, unigram_total_token)
-print(sentence2, ": ", unigram_value_perplexity_2)
+print(sentence2, ": ", unigram_value_perplexity_2[0])
 unigram_value_perplexity_3 = unigram_perplexity(unigram_dictionary, sentence3, unigram_total_token)
-print(sentence3, ": ", unigram_value_perplexity_3)
+print(sentence3, ": ", unigram_value_perplexity_3[0])
 
 # Perplexity Bigram
 print("Perplexity Bigram: ")
@@ -387,12 +402,25 @@ print(sentence3, ": ", bigram_value_perplexity_3)
 
 # Perplexity Bigram add one smoothing
 print("Perplexity Bigram add one smoothing: ")
-biagram_add_one_smoothing_1 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence1,
-                                                                  len(unigram_dictionary))
-print(sentence1, ": ", biagram_add_one_smoothing_1)
-biagram_add_one_smoothing_2 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence2,
-                                                                  len(unigram_dictionary))
-print(sentence2, ": ", biagram_add_one_smoothing_2)
-biagram_add_one_smoothing_3 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence3,
-                                                                  len(unigram_dictionary))
-print(sentence3, ": ", biagram_add_one_smoothing_3)
+bigram_add_one_smoothing_1 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence1,
+                                                                 len(unigram_dictionary))
+print(sentence1, ": ", bigram_add_one_smoothing_1)
+bigram_add_one_smoothing_2 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence2,
+                                                                 len(unigram_dictionary))
+print(sentence2, ": ", bigram_add_one_smoothing_2)
+bigram_add_one_smoothing_3 = bigram_add_one_smoothing_perplexity(unigram_dictionary, bigram_dictionary, sentence3,
+                                                                 len(unigram_dictionary))
+print(sentence3, ": ", bigram_add_one_smoothing_3)
+
+# Perplexity Brown-Test
+print("Perplexity Brown-Test: ")
+
+var1 = unique_word_token_for_unigram(brown_test_loader)
+var2 = unique_word_token_for_unigram(learner_test_loader)
+
+total_token_in_brown_test = var1[1]
+total_token_in_learner_test = var2[1]
+
+brown_test_value_unigram = unigram_perplexity_test_data(unigram_dictionary, brown_test_loader, unigram_total_token,
+                                                        total_token_in_brown_test)
+print("Brown Test Perplexity Unigram: ", brown_test_value_unigram)
