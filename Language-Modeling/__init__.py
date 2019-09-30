@@ -239,6 +239,18 @@ def log_probabilities_bigram(bigram_dictionary, unigram_dictionary, sentence):
         return math.log(log_prob, 2)
 
 
+def bigram_add_smoothing(unigrams_dictionary, bigrams_dictionary, sentence, V):
+    words = sentence.split()
+    prob = 1.0
+    for i in range(0, len(words) - 1):
+        var = (words[i], words[i + 1])
+        var2 = bigrams_dictionary.get(var, 0) + 1
+        var3 = unigrams_dictionary.get(words[i], 0) + V
+        prob *= (var2 / var3)
+
+    return math.log(prob, 2)
+
+
 # Data Pre-Processing
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -299,3 +311,12 @@ value_b_3 = log_probabilities_bigram(bigram_dictionary, unigram_dictionary, sent
 print(sentence1, ": ", value_b_1)
 print(sentence2, ": ", value_b_2)
 print(sentence3, ": ", value_b_3)
+
+# Log probabilities for Bigram Smoothing add one
+print("Bigram Add One smoothing Log probabilities for Each sentence: ")
+value_smoothing_1 = bigram_add_smoothing(unigram_dictionary, bigram_dictionary, sentence1, len(unigram_dictionary))
+print(sentence1, ": ", value_smoothing_1)
+value_smoothing_2 = bigram_add_smoothing(unigram_dictionary, bigram_dictionary, sentence2, len(unigram_dictionary))
+print(sentence2, ": ", value_smoothing_2)
+value_smoothing_3 = bigram_add_smoothing(unigram_dictionary, bigram_dictionary, sentence3, len(unigram_dictionary))
+print(sentence3, ": ", value_smoothing_3)
