@@ -258,7 +258,7 @@ def unigram_perplexity(unigram_dictionary, sentence, size):
             p = value / size
             prob += math.log(p, 2)
         elif word not in unigram_dictionary:
-            return "undefined"
+            return "undefined", "inf"
     ans = math.pow(2, -(prob / len(words)))
 
     return ans, prob
@@ -271,12 +271,12 @@ def bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence):
         var = (words[i], words[i + 1])
         if var in bigram_dictionary:
             p = bigram_dictionary[var] / unigram_dictionary[words[i]]
-            prob += math.log(p, 2)  # check p is zero or not
+            prob += math.log(p, 2)
         elif var not in bigram_dictionary:
-            return "undefined"
+            return "undefined", "inf"
     ans = math.pow(2, -(prob / len(words)))
 
-    return ans
+    return ans, prob
 
 
 def bigram_add_one_smoothing_perplexity(unigrams_dictionary, bigrams_dictionary, sentence, V):
@@ -301,9 +301,26 @@ def unigram_perplexity_test_data(unigram_dictionary, test_data_set, unigram_tota
             return "undefined"
         else:
             prob_total += prob[1]
-    ans = math.pow(2, -(prob_total / total_token_in_test))
 
+    ans = math.pow(2, -(prob_total / total_token_in_test))
     return ans
+
+
+def bigram_perplexity_test_data(unigram_dictionary, bigram_dictionary, test_data_set, unigram_total_token,
+                                total_token_in_test):
+    prob_total = 0.0
+    for sentence in test_data_set:
+        prob = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence)
+        if prob[0] is "undefined":
+            return "undefined"
+        else:
+            prob_total += prob[1]
+
+    ans = math.pow(2, -(prob_total / total_token_in_test))
+    return ans
+
+
+# for sentence in test_data_set:
 
 
 # Data Pre-Processing
@@ -394,11 +411,11 @@ print(sentence3, ": ", unigram_value_perplexity_3[0])
 # Perplexity Bigram
 print("Perplexity Bigram: ")
 bigram_value_perplexity_1 = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence1)
-print(sentence1, ": ", bigram_value_perplexity_1)
+print(sentence1, ": ", bigram_value_perplexity_1[0])
 bigram_value_perplexity_2 = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence2)
-print(sentence2, ": ", bigram_value_perplexity_2)
+print(sentence2, ": ", bigram_value_perplexity_2[0])
 bigram_value_perplexity_3 = bigram_perplexity(unigram_dictionary, bigram_dictionary, sentence3)
-print(sentence3, ": ", bigram_value_perplexity_3)
+print(sentence3, ": ", bigram_value_perplexity_3[0])
 
 # Perplexity Bigram add one smoothing
 print("Perplexity Bigram add one smoothing: ")
@@ -423,4 +440,9 @@ total_token_in_learner_test = var2[1]
 
 brown_test_value_unigram = unigram_perplexity_test_data(unigram_dictionary, brown_test_loader, unigram_total_token,
                                                         total_token_in_brown_test)
-print("Brown Test Perplexity Unigram: ", brown_test_value_unigram)
+print("Brown Test Unigram Perplexity: ", brown_test_value_unigram)
+
+brown_test_value_bigram = bigram_perplexity_test_data(unigram_dictionary, bigram_dictionary, test_data_set,
+                                                      unigram_total_token,
+                                                      total_token_in_brown_test)
+print("Brown Test Bigram Perplexity: ", brown_test_value_bigram)
