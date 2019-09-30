@@ -1,14 +1,6 @@
 import re
 import string
-
-
-def unigram_maximum_likelihood(dictionary, total_size, sentence):
-    words = sentence.split()
-    prob = 1.0
-    for word in words:
-        if word in dictionary:
-            prob *= dictionary[word] / total_size
-    return prob
+import math
 
 
 def load_data_set(filename):
@@ -192,6 +184,37 @@ def bigrams_model(dictionary, dataset):
     print("Percentage of word types did not occur in the training: ", word_type * 100, "%")
 
 
+def unigram_maximum_likelihood(dictionary, total_size, sentence):
+    words = sentence.split()
+    prob = 1.0
+    for word in words:
+        if word in dictionary:
+            prob *= dictionary[word] / total_size
+    return prob
+
+
+def log_probabilities_unigram(unigram_dictionary, sentence, v_size):
+    log_prob = unigram_maximum_likelihood(unigram_dictionary, v_size, sentence)
+    if log_prob is 0:
+        return "undefined"
+    else:
+        return math.log(log_prob, 2)
+
+
+def bigram_maximum_likelihood(bigram_dictionary, unigram_dictionary, sentence):
+    words = sentence.split()
+    prob = 1.0
+    for i in range(0, len(words) - 1):
+        var = (words[i], words[i + 1])
+        key = bigram_dictionary.get(var, 0)
+        if key is 0:
+            return 0
+        else:
+            p = bigram_dictionary[var] / unigram_dictionary[words[i]]
+            prob *= p
+    return prob
+
+
 # Data Pre-Processing
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -225,11 +248,17 @@ bigrams_model(train_bigrams[0], brown_test_loader)
 print("LEARNER-TEST-DATA: ")
 bigrams_model(train_bigrams[0], learner_test_loader)
 
+# Log probabilities for each model
+print("Unigram Log probabilities for Each sentence: ")
 sentence1 = "<s> he was laughed off the screen . </s>"
-value = unigram_maximum_likelihood(arr_for_modified_train[0], arr_for_modified_train[1], sentence1)
-print(value)
+sentence2 = "<s> there was no compulsion behind them . </s>"
+sentence3 = "<s> i look forward to hearing your reply . </s>"
+value1 = log_probabilities_unigram(arr_for_modified_train[0], sentence1, arr_for_modified_train[1])
+value2 = log_probabilities_unigram(arr_for_modified_train[0], sentence2, arr_for_modified_train[1])
+value3 = log_probabilities_unigram(arr_for_modified_train[0], sentence3, arr_for_modified_train[1])
+print(value1)
+print(value2)
+print(value3)
 
-dic = train_bigrams[0]
-vz = train_bigrams[1]
-unidic = train_unigram[0]
-print(dic[('the', 'fulton')] / unidic['the'])
+# value = bigram_maximum_likelihood(train_bigrams[0], train_unigram[0], sentence1)
+# print(value)
