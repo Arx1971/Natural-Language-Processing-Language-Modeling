@@ -251,6 +251,18 @@ def bigram_add_smoothing(unigrams_dictionary, bigrams_dictionary, sentence, V):
     return math.log(prob, 2)
 
 
+def unigram_perplexity(unigram_dictionary, sentence, size):
+    words = sentence.split()
+    prob = 0.0
+    for word in words:
+        if word in unigram_dictionary:
+            value = unigram_dictionary[word]
+            p = value / size
+            prob += math.log(p, 2)
+
+    return prob / len(words)
+
+
 # Data Pre-Processing
 training_data_set = load_data_set("brown-train.txt")
 test_data_set = load_data_set("brown-test.txt")
@@ -288,7 +300,9 @@ bigrams_model(train_bigrams[0], learner_test_loader)
 # Log probabilities for Unigram
 
 unigram_dictionary = arr_for_modified_train[0]
+unigram_total_token = arr_for_modified_train[1]
 bigram_dictionary = train_bigrams[0]
+bigram_total_toke = train_bigrams[1]
 
 print("Unigram Log probabilities for Each sentence: ")
 sentence1 = sentence_processing("He was laughed off the screen .", arr_for_modified_train[0])
@@ -320,3 +334,8 @@ value_smoothing_2 = bigram_add_smoothing(unigram_dictionary, bigram_dictionary, 
 print(sentence2, ": ", value_smoothing_2)
 value_smoothing_3 = bigram_add_smoothing(unigram_dictionary, bigram_dictionary, sentence3, len(unigram_dictionary))
 print(sentence3, ": ", value_smoothing_3)
+
+# Perplexity
+print("Perplexity: ")
+value_perplexity_1 = unigram_perplexity(unigram_dictionary, sentence1, unigram_total_token)
+print(math.pow(2, value_perplexity_1))
