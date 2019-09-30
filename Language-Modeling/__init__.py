@@ -184,19 +184,35 @@ def bigrams_model(dictionary, dataset):
     print("Percentage of word types did not occur in the training: ", word_type * 100, "%")
 
 
+def sentence_processing(sentence, dictionary):
+    words = sentence.split()
+    new_sentence = "<s> "
+    for word in words:
+        word = word.lower()
+        if word in dictionary:
+            new_sentence += word + " "
+        else:
+            new_sentence += "<unk> "
+    new_sentence += "</s>"
+
+    return new_sentence
+
+
 def unigram_maximum_likelihood(dictionary, total_size, sentence):
     words = sentence.split()
     prob = 1.0
     for word in words:
         if word in dictionary:
             prob *= dictionary[word] / total_size
+        elif word not in dictionary:
+            return 0
     return prob
 
 
 def log_probabilities_unigram(unigram_dictionary, sentence, v_size):
     log_prob = unigram_maximum_likelihood(unigram_dictionary, v_size, sentence)
     if log_prob is 0:
-        return "undefined"
+        return "0.0"
     else:
         return math.log(log_prob, 2)
 
@@ -213,6 +229,14 @@ def bigram_maximum_likelihood(bigram_dictionary, unigram_dictionary, sentence):
             p = bigram_dictionary[var] / unigram_dictionary[words[i]]
             prob *= p
     return prob
+
+
+def log_probabilities_bigram(bigram_dictionary, unigram_dictionary, sentence):
+    log_prob = bigram_maximum_likelihood(bigram_dictionary, unigram_dictionary, sentence)
+    if log_prob is 0:
+        return "0.0"
+    else:
+        return math.log(log_prob, 2)
 
 
 # Data Pre-Processing
@@ -249,16 +273,29 @@ print("LEARNER-TEST-DATA: ")
 bigrams_model(train_bigrams[0], learner_test_loader)
 
 # Log probabilities for each model
+# Log probabilities for Unigram
+
+unigram_dictionary = arr_for_modified_train[0]
+bigram_dictionary = train_bigrams[0]
+
 print("Unigram Log probabilities for Each sentence: ")
-sentence1 = "<s> he was laughed off the screen . </s>"
-sentence2 = "<s> there was no compulsion behind them . </s>"
-sentence3 = "<s> i look forward to hearing your reply . </s>"
+sentence1 = sentence_processing("He was laughed off the screen .", arr_for_modified_train[0])
+sentence2 = sentence_processing("There was no compulsion behind them .", arr_for_modified_train[0])
+sentence3 = sentence_processing("I look forward to hearing your reply .", arr_for_modified_train[0])
+
 value1 = log_probabilities_unigram(arr_for_modified_train[0], sentence1, arr_for_modified_train[1])
 value2 = log_probabilities_unigram(arr_for_modified_train[0], sentence2, arr_for_modified_train[1])
 value3 = log_probabilities_unigram(arr_for_modified_train[0], sentence3, arr_for_modified_train[1])
-print(value1)
-print(value2)
-print(value3)
+print(sentence1, ": ", value1)
+print(sentence2, ": ", value2)
+print(sentence3, ": ", value3)
 
-# value = bigram_maximum_likelihood(train_bigrams[0], train_unigram[0], sentence1)
-# print(value)
+# Log probabilities for Bigram
+print("Bigram Log probabilities for Each sentence: ")
+value_b_1 = log_probabilities_bigram(bigram_dictionary, unigram_dictionary, sentence1)
+value_b_2 = log_probabilities_bigram(bigram_dictionary, unigram_dictionary, sentence2)
+value_b_3 = log_probabilities_bigram(bigram_dictionary, unigram_dictionary, sentence3)
+
+print(sentence1, ": ", value_b_1)
+print(sentence2, ": ", value_b_2)
+print(sentence3, ": ", value_b_3)
