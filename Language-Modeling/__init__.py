@@ -372,7 +372,7 @@ unigram_dictionary = arr_for_modified_train[0]
 unigram_total_token = arr_for_modified_train[1]
 bigram_dictionary = train_bigrams[0]
 bigram_total_toke = train_bigrams[1]
-
+print()
 print("Unigram Log probabilities for Each sentence: ")
 sentence1 = sentence_processing("He was laughed off the screen .", arr_for_modified_train[0])
 sentence2 = sentence_processing("There was no compulsion behind them .", arr_for_modified_train[0])
