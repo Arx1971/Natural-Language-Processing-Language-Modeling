@@ -6,12 +6,17 @@
 </ul>
 <h2>Pre-Porcessing training Corpora</h2>
 <ul>
-	<li>Pad each sentence in the training and test corpora with start and end symbols (you can
-		use <s> and </s>, respectively).</li>
+	<li>Pad each sentence in the training and test corpora with start and end symbols.</li>
 	<li>Lowercase all words in the training and test corpora. Note that the data already has
 		been tokenized (i.e. the punctuation has been split off words).</li>
 	<li>
-		Replace all words occurring in the training data once with the token <unk>. Every word
-		in the test data not seen in training should be treated as <unk>.
+		Replace all words occurring in the training data once with the token 'unk'. Every word
+		in the test data not seen in training should be treated as 'unk'.
 	</li>
+</ul>
+<h2>Model List: Follwing model are used for train the train-corpora and test-corpora</h2>
+<ul>
+	<li>Unigram Maximum Likelihood Model</li>
+	<li>Bigram Maximul Likelihood Model</li>
+	<li>Bigram Model with Add-one Smoothing</li>
 </ul>
